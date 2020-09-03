@@ -1,0 +1,14 @@
+void quicksort(int[] a, int begin, int end) {
+
+    int p = byttPivetBakerst(a, begin, end); // verdien til pivet
+    int q = partisjon(a, p, begin, end); // index sortert posisjon
+    byttPivetTilbake(a, end - 1, q);
+
+    quicksort(a, begin, q);
+    quicksort(a, q + 1, end);
+
+    if (begin + 1 == end) {
+        return;
+    }
+
+}
