@@ -1,4 +1,4 @@
-package uke36;
+package java;
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;
@@ -64,6 +64,89 @@ public class Tabell {
     public static int maks(int[] a) {
         return maks(a, 0, a.length);
     }
+
+    public static int maks(double[] a) {
+        int m = 0;
+        double maks = a[m];
+
+        for (int i = 1; i < a.length; i++) {
+            if(a[i] > maks) {
+                maks = a[i];
+                m = i;
+            }
+        }
+
+        return m;
+    }
+
+    public static int maks(String[] a) {
+        int m = 0;
+        String maksverdi = a[0];
+
+        for (int i = 1; i < a.length; i++) {
+            if (a[i].compareTo(maksverdi) > 0) {
+                m = i;
+                maksverdi = a[i];
+            }
+        }
+        return m;
+    }
+
+    public static int maks(char[] a) {
+        int m = 0;
+        char maks = a[0];
+
+        for (int i = 1; i < a.length; i++) {
+            if (a[i] > maks) {
+                maks = a[i];
+                m = i;
+            }
+        }
+
+        return m;
+    }
+
+    public static int maks(Integer[] a) {
+        int m = 0;
+        Integer maks = a[m];
+
+        for (int i = 1; i < a.length; i++) {
+            if (a[i] > maks) {
+                maks = a[i];
+                m = i;
+            }
+        }
+
+        return m;
+    }
+
+    // Generiks
+    public static <T extends Comparable<? super T>> int maks(T[] a) {
+        int m = 0;
+        T maks = a[m];
+
+        for (int i = 1; i < a.length; i++) {
+            if (a[i].compareTo(maks) > 0) {
+                maks = a[i];
+                m = i;
+            }
+        }
+
+        return m;
+    }
+
+    public static <T extends Comparable<? super T>> void innsettingssortering(T[] a) {
+        for (int i = 1; i < a.length; i++) {
+            T verdi = a[i];
+            int j = i - 1;
+
+            for(; j>= 0 && verdi.compareTo(a[j]) < 0; j--) a[j + 1] = a[j];
+
+            a[j + 1] = verdi;
+        }
+    }
+
+    //
 
     public static int[] nestMaks(int[] a) {
         int n = a.length;
@@ -451,6 +534,11 @@ public class Tabell {
 
     }
 
+    public static int kvadratrotsøk(int[] a, int value) {
+        int h = (int) Math.sqrt(a.length);
+        return lineærsøk(a, h, value);
+    }
+
     public static int lineærsøkH(int[] a, int value) {
         if (a.length == 0 || value > a[a.length - 1])
             return -(a.length + 1);
@@ -458,5 +546,72 @@ public class Tabell {
         int i = a.length -1;for( ; a[i] > value && i > 0; i--);
 
         return value == a[i] ? i : -(i + 1);
+    }
+
+    public static int binærsøk(int[] a, int fra, int til, int value){
+        fratilKotroll(a.length, fra, til);
+        int v = fra, h = til - 1;
+
+        while (v <= h) {
+            int m = (v+h)/2;
+            int mindelverdi = a[m];
+
+            if (mindelverdi == value) {
+                return m;
+            } else if (mindelverdi < value) {
+                v = m + 1;
+            } else h = m - 1;
+        }
+
+        return -(v + 1);
+    }
+
+    public static int binærsøk(int[] a, int value) {
+        return binærsøk(a, 0, a.length, value);
+    }
+
+    public static void skriv(Object[] a, int fra, int til) {
+        for (int i = fra; i < til; i++) {
+            if (i +1 != til) {
+                System.out.print(a[i] + " ");
+            }
+            System.out.print(a[i]);
+        }
+    }
+
+    public static void skrivln(Object[] a, int fra, int til ) {
+        for (int i = fra; i < til; i++) {
+            System.out.println(a[i]);
+        }
+    }
+
+    public static void bytt(Object[] a, int i, int j) {
+        Object temp = a[i];
+        a[i] = a[j];
+        a[j] = temp;
+    }
+
+    public static Integer[] randPermInteger(int n) {
+        Integer[] a = new Integer[n];
+        Arrays.setAll(a, i -> i + 1);
+
+        Random r = new Random();
+
+        for (int k = n - 1; k > 0; k--) {
+            int i = r.nextInt(k + 1);
+            bytt(a,k,i);
+        }
+
+        return a;
+    }
+
+    public static Double[] sort(double[] a) {
+        Double[] b = new Double[a.length];
+        for (int i = 0; i < a.length; i++) {
+            b[i] = a[i];
+        }
+
+        innsettingssortering(b);
+        return b;
     }
 }

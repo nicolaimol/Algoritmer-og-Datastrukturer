@@ -1,4 +1,4 @@
-package uke36;
+package java;
 
 import java.util.Arrays;
 
@@ -41,6 +41,11 @@ public class Program {
         // Tabell.kopier(sourceArray, 0, destArray, (destArray.length - sourceArray.length)/2, sourceArray.length);
         // System.out.println();
         // System.out.print(Arrays.toString(destArray));
+
+        String[] d = {"d", "b", "c", "a"};
+        System.out.println(Arrays.toString(d));
+        Tabell.innsettingssortering(d);
+        System.out.println(Arrays.toString(d));
 
     }
 }
