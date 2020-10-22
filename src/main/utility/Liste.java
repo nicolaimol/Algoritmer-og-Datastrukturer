@@ -1,4 +1,6 @@
-package java.util;
+package main.utility;
+
+import java.util.Iterator;
 
 public interface Liste<T> extends Beholder<T> {
     public boolean leggInn(T verdi);

@@ -1,4 +1,10 @@
-package java.util;
+package main.utility;
+
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.function.Predicate;
 
 public class TabellListe<T> implements Liste<T> {
     private T[] a;
@@ -68,7 +74,7 @@ public class TabellListe<T> implements Liste<T> {
     }
 
     @Override
-    public void leggInn(int index, T verdi) {
+    public void leggInn(int index,T verdi) {
         Objects.requireNonNull(verdi, "null er ulovlig!");
         indexKontroll(index, true);
 
@@ -114,6 +120,18 @@ public class TabellListe<T> implements Liste<T> {
     }
 
     @Override
+    public boolean fjernHvis(Predicate<? super T> p) {
+        for (int i = 0; i < antall; i++) {
+            if (p.test(a[i])) {
+                fjern(i);
+                i--;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
@@ -133,12 +151,47 @@ public class TabellListe<T> implements Liste<T> {
         
     }
 
-    // Ikke implementerte
+    // Iterator
 
+    private class TabellListeIterator implements Iterator<T> {
+        private int denne = 0;
+        private boolean fjerneOK = false;
+
+        @Override
+        public boolean hasNext() {
+            return denne < antall;
+        }
+
+        @Override
+        public T next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException("Tomt eller ingen verdier igjen");
+            }
+            T denneVerdi = a[denne];
+            fjerneOK = true;
+            denne++;
+
+            return denneVerdi;
+        }
+
+        @Override
+        public void remove() {
+            if (!fjerneOK) {
+                throw new IllegalStateException("Ulovlig tilstand");
+            }
+
+            fjerneOK = false;
+            antall--;
+            denne--;
+
+            System.arraycopy(a, denne +1, a, denne, antall-denne);
+            a[antall] = null;
+        }
+    }
 
 
     @Override
     public Iterator<T> iterator() {
-        return null;
+        return new TabellListeIterator();
     }
 }

@@ -1,5 +1,7 @@
-package java.util;
+package main.utility;
 
+import java.util.Iterator;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 public interface Beholder<T> extends Iterable<T> {
